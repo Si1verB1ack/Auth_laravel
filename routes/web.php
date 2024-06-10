@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Redirect;
@@ -9,12 +10,11 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth','verified'])->group(function () {
-    Route::get('/welcome', function () {
-        return view('welcome');
-    });
+    Route::get('/profile/setting', [UserController::class,'profile']);
+    Route::get('/profile/upload', [UserController::class,'upload']);
 });
 Route::middleware(['auth','verified', IsAdmin::class])->group(function () {
-    Route::get('/home', function () {
-        return view('auth.dashboard');
+    Route::get('/admin', function () {
+        return view('admin.dashboard');
     });
 });
