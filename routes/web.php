@@ -11,7 +11,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/profile/setting', [UserController::class,'profile']);
-    Route::get('/profile/upload', [UserController::class,'upload']);
+
+    Route::post('/profile/upload', [UserController::class,'upload']);
 });
 Route::middleware(['auth','verified', IsAdmin::class])->group(function () {
     Route::get('/admin', function () {

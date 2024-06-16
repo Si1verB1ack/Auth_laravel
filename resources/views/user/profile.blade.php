@@ -16,7 +16,9 @@
                     <!-- profile user -->
                     <div class="profile__user">
                         <div class="profile__avatar">
-                            <img src="{{ asset('img/user.svg') }}" alt="" id="update_profile_pic">
+                            {{-- fix the code --}}
+                            <img src="{{ Auth::user()->profile ? url('profile/' . Auth::user()->profile) : url('img/user.svg') }}" alt="" id="update_profile_pic">
+                            {{-- <img src="{{(Auth::user()->profile!="") ? (url('profile/'.Auth::user()->profile)) : 'img/logo.svg'}}" alt="" id="update_profile_pic"> --}}
                             <input type="file" id="FileUpload1" style="display:none"/>
                         </div>
                         <!-- or red -->
@@ -204,6 +206,26 @@
                 };
                 reader.readAsDataURL(file);
             }
+            let form = new FormData();
+            form.append('image', file);
+            $.ajax({
+                url:"/profile/upload",
+                method:"POST",
+                headers: {
+                'X-CSRF-Token' : '{{csrf_token()}}',
+                },
+                dataType:'JSON',
+                data: form,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success:function(response) {
+                    console.log("Success: " + response.message);
+                },
+                error: function(response) {
+                    console.log("error: " + response.message);
+                }
+            })
         });
     </script>
 @endsection

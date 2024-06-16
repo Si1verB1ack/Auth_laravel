@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -69,7 +68,7 @@
         <!-- sidebar user -->
         <div class="sidebar__user">
             <div class="sidebar__user-img">
-                <img src="{{asset('img/user.svg')}}" alt="">
+                <img src="{{url('img/user.svg') }}" alt="">
             </div>
 
             <div class="sidebar__user-title">
