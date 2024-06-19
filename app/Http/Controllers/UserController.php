@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -25,6 +27,7 @@ class UserController extends Controller
             $user->profile = $fileName;
             $user->save();
             return response()->json([
+                'status' => true,
                 'message' => 'image has been uploaded to '.$fileName,
             ],200);
         }else{
@@ -33,4 +36,22 @@ class UserController extends Controller
             ],400);
         }
     }
+    //create a passwordChange function to change the password
+    public function changePassword(Request $request){
+        $validator = Validator::make($request->all(), [
+            'oldpass' => 'required|current_password',
+            'newpass' => 'required|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Update the user's password
+        User::find(Auth::user()->id)->update(['password' => Hash::make($request->newpass)]);
+
+        return redirect()->back()->with('success', 'Password changed successfully.');
+    }
+
 }
+

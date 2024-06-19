@@ -141,39 +141,48 @@
 
                                 <!-- password form -->
                                 <div class="col-12 col-lg-6">
-                                    <form action="#" class="sign__form sign__form--profile">
+                                    <form action="{{ route('password.change') }}" method="POST" class="sign__form sign__form--profile">
+                                        @csrf
                                         <div class="row">
                                             <div class="col-12">
                                                 <h4 class="sign__title">Change password</h4>
+                                                @if(session('error'))
+                                                    <p style="color: red;">{{ session('error') }}</p>
+                                                @endif
+                                                @if(session('success'))
+                                                    <p style="color: green;">{{ session('success') }}</p>
+                                                @endif
                                             </div>
 
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="oldpass">Old password</label>
-                                                    <input id="oldpass" type="password" name="oldpass"
-                                                        class="sign__input">
+                                                    <input id="oldpass" type="password" name="oldpass" class="sign__input" value="{{ old('oldpass') }}">
                                                 </div>
+                                                @error('oldpass')
+                                                <p style="color: rgb(255, 136, 136); font-size: 12px;">{{ $message }}</p>
+                                                @enderror
                                             </div>
 
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="newpass">New password</label>
-                                                    <input id="newpass" type="password" name="newpass"
-                                                        class="sign__input">
+                                                    <input id="newpass" type="password" name="newpass" class="sign__input">
                                                 </div>
+                                                @error('newpass')
+                                                <p style="color: rgb(255, 136, 136); font-size: 12px;">{{ $message }}</p>
+                                                @enderror
                                             </div>
 
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
-                                                    <label class="sign__label" for="confirmpass">Confirm new
-                                                        password</label>
-                                                    <input id="confirmpass" type="password" name="confirmpass"
-                                                        class="sign__input">
+                                                    <label class="sign__label" for="confirmpass">Confirm new password</label>
+                                                    <input id="confirmpass" type="password" name="newpass_confirmation" class="sign__input">
                                                 </div>
                                             </div>
 
                                             <div class="col-12">
-                                                <button class="sign__btn" type="button">Change</button>
+                                                <button type="submit" class="sign__btn">Change</button>
                                             </div>
                                         </div>
                                     </form>
@@ -220,7 +229,9 @@
                 cache: false,
                 processData: false,
                 success:function(response) {
-                    console.log("Success: " + response.message);
+                    // if(response.status==true) {
+                    //     window.location.reload();
+                    // }
                 },
                 error: function(response) {
                     console.log("error: " + response.message);

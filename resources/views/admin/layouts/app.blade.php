@@ -68,7 +68,9 @@
         <!-- sidebar user -->
         <div class="sidebar__user">
             <div class="sidebar__user-img">
-                <img src="{{url('img/user.svg') }}" alt="">
+                <a href="{{route('profile')}}">
+                <img src="{{ Auth::user()->profile ? url('profile/' . Auth::user()->profile) : url('img/user.svg') }}" alt="">
+                </a>
             </div>
 
             <div class="sidebar__user-title">
