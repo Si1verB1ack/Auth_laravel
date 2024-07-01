@@ -89,7 +89,8 @@
                             <div class="row">
                                 <!-- details form -->
                                 <div class="col-12 col-lg-6">
-                                    <form action="#" class="sign__form sign__form--profile sign__form--first">
+                                    <form action="{{route('username.change')}}" method="POST" class="sign__form sign__form--profile sign__form--first">
+                                        @csrf
                                         <div class="row">
                                             <div class="col-12">
                                                 <h4 class="sign__title">Profile details</h4>
@@ -98,8 +99,17 @@
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="username">Login</label>
+                                                    @if(session('error'))
+                                                    <p style="color: red;">{{ session('error') }}</p>
+                                                    @endif
+                                                    @if(session('name-success'))
+                                                        <p style="color: green;">{{ session('name-success') }}</p>
+                                                    @endif
                                                     <input id="username" type="text" name="username" class="sign__input"
                                                         value="{{ Auth::user()->name }}">
+                                                        @error('username')
+                                                        <p style="color: rgb(255, 136, 136); font-size: 12px;">{{ $message }}</p>
+                                                        @enderror
                                                 </div>
                                             </div>
 
@@ -132,7 +142,7 @@
                                             </div>
 
                                             <div class="col-12">
-                                                <button class="sign__btn" type="button">Save</button>
+                                                <button type="submit" class="sign__btn" type="button">Save</button>
                                             </div>
                                         </div>
                                     </form>
@@ -149,8 +159,8 @@
                                                 @if(session('error'))
                                                     <p style="color: red;">{{ session('error') }}</p>
                                                 @endif
-                                                @if(session('success'))
-                                                    <p style="color: green;">{{ session('success') }}</p>
+                                                @if(session('pass-success'))
+                                                    <p style="color: green;">{{ session('pass-success') }}</p>
                                                 @endif
                                             </div>
 

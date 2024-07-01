@@ -50,7 +50,21 @@ class UserController extends Controller
         // Update the user's password
         User::find(Auth::user()->id)->update(['password' => Hash::make($request->newpass)]);
 
-        return redirect()->back()->with('success', 'Password changed successfully.');
+        return redirect()->back()->with('pass-success', 'Password changed successfully.');
+    }
+    public function changeUsername(Request $request){
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|min:4|unique:users,name',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Update the user's password
+        User::find(Auth::user()->id)->update(['name' => $request->username]);
+
+        return redirect()->back()->with('name-success', 'username changed successfully.');
     }
 
 }
